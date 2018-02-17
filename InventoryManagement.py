@@ -167,8 +167,15 @@ class MainGUI(Frame):
         global dailySoupSaladCount
         global dailySandwichCount
         global dailyEntreeCount
-        print(date.today())
+        print("before")
         manipulate_beer()
+        manipulate_liquor()
+        manipulate_wine()
+        manipulate_NA()
+        manipulate_apps()
+        manipulate_soupSalad()
+        manipulate_sandwiches()
+        manipulate_entrees()
         showTable()
         dailyBeerCount = 0
         dailyLiquorCount = 0
@@ -201,9 +208,14 @@ def setupDatabase():
     db = sqlite3.connect(databaseFilename)
     cursor = db.cursor()
     TodaysDate = date.today()
+    # TodaysDate = '2018-02-18'
     # cursor.execute('DROP TABLE DAILY')
+
     cursor.execute('CREATE TABLE IF NOT EXISTS DAILY(Id primary key, Beer int, Liquor int, Wine int, NA int, Appetizers int, SoupSalad int, Sandwiches int, Entrees int )')
-    cursor.execute('INSERT INTO DAILY VALUES(?,0,0,0,0,0,0,0,0)',(TodaysDate,))
+    currentDate = cursor.execute('SELECT Id from DAILY')
+    print(currentDate)
+    cursor.execute('UPDATE DAILY SET Id = ?', (TodaysDate,))
+    # cursor.execute('INSERT OR REPLACE INTO DAILY VALUES(?,0,0,0,0,0,0,0,0)',(TodaysDate,))
     db.commit()
 
 def manipulate_beer():
@@ -212,16 +224,71 @@ def manipulate_beer():
     db = sqlite3.connect(databaseFilename)
     cursor = db.cursor()
     cursor.execute('UPDATE DAILY SET Beer = Beer + ? WHERE Id = ?', (dailyBeerCount, TodaysDate))
-    print("Manipulate")
     db.commit()
     db.close()
 
+def manipulate_liquor():
+    TodaysDate = date.today()
+    global dailyLiquorCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET Liquor = Liquor + ? WHERE Id = ?', (dailyLiquorCount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_wine():
+    TodaysDate = date.today()
+    global dailyWineCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET Wine = Wine + ? WHERE Id = ?', (dailyWineCount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_NA():
+    TodaysDate = date.today()
+    global dailyNACount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET NA = NA + ? WHERE Id = ?', (dailyNACount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_apps():
+    TodaysDate = date.today()
+    global dailyAppCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET Appetizers = Appetizers + ? WHERE Id = ?', (dailyAppCount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_soupSalad():
+    TodaysDate = date.today()
+    global dailySoupSaladCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET SoupSalad = SoupSalad + ? WHERE Id = ?', (dailySoupSaladCount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_sandwiches():
+    TodaysDate = date.today()
+    global dailySandwichCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET Sandwiches = Sandwiches + ? WHERE Id = ?', (dailySandwichCount, TodaysDate))
+    db.commit()
+    db.close()
 
+def manipulate_entrees():
+    TodaysDate = date.today()
+    global dailyEntreeCount
+    db = sqlite3.connect(databaseFilename)
+    cursor = db.cursor()
+    cursor.execute('UPDATE DAILY SET Entrees = Entrees + ? WHERE Id = ?', (dailyEntreeCount, TodaysDate))
+    db.commit()
+    db.close()
 
 if __name__ == '__main__':
         main()
