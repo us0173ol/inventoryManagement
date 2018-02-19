@@ -162,11 +162,11 @@ class MainGUI(Frame):
         exit(0)
     def send(self):
         globalCounters()
-        print("before")
+        # print("before")
         manipulate_items()
         showTable()
         resetCounters()
-        print("After")
+        # print("After")
 
 
 def resetCounters():
@@ -193,7 +193,7 @@ def showTable():
     db = sqlite3.connect(databaseFilename)
     cursor = db.cursor()
     cursor.execute('SELECT * FROM DAILY')
-    print("During")
+    # print("During")
     for row in cursor:
         print(row)
 
